@@ -1,0 +1,4 @@
+package org.example.caodangphuongnam.domain_nghiepvu.major_nganh.aircraftmaintenanceandrepair_nganhbaotrivasuachuamaybay.training_daotao.specializedsubjects_monchuyennganh.service.impl;
+
+public class test {
+}
