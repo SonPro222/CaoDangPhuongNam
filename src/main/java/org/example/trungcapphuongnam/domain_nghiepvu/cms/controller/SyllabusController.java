@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/domain_nghiepvu/cms/syllabus")
+@RequestMapping("/api/v1/cms/syllabus")
 @RequiredArgsConstructor
 public class SyllabusController {
 

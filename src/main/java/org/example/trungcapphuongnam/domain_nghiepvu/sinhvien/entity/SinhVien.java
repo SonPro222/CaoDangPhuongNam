@@ -2,6 +2,8 @@ package org.example.trungcapphuongnam.domain_nghiepvu.sinhvien.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.trungcapphuongnam.domain_nghiepvu.phongban.entity.NguoiDung;
+
 import java.time.LocalDate;
 
 @Entity
@@ -19,4 +21,7 @@ public class SinhVien {
     private String email;
     private String sdt;
     private Boolean kyLuatCamThi = false;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nguoi_dung_id", referencedColumnName = "id")
+    private NguoiDung nguoiDung;
 }
