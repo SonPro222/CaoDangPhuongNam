@@ -1,0 +1,4 @@
+package org.example.trungcapphuongnam.domain_nghiepvu.sinhvien.filter;
+
+public class CanhBaoHocVuFilter {
+}
