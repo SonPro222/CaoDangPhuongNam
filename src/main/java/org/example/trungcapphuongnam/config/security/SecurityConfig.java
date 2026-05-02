@@ -1,68 +1,135 @@
-//package org.example.trungcapphuongnam.config.security;
-//
-//
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.web.cors.CorsConfiguration;
-//import org.springframework.web.cors.CorsConfigurationSource;
-//import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-//
-//import java.util.Arrays;
-//
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig {
-//
-//    private final CustomOAuth2UserService customOAuth2UserService;
-//    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-//
-//    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler) {
-//        this.customOAuth2UserService = customOAuth2UserService;
-//        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
-//    }
-//
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//
-//                // 1. Bật CORS để VueJS chọc vào không bị lỗi Cross-Origin
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-//
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/v1/auth/**", "/login", "/oauth2/**").permitAll()
-//                        .anyRequest().permitAll()
-//                )
-//
-//                // 2. Cấu hình luồng Google Login
-//                .oauth2Login(oauth2 -> oauth2
-//                        // URL trang Login tự thiết kế bên VueJS.
-//                        // Khi backend cần đăng nhập, nó sẽ đá về trang này thay vì trang mặc định của Spring
-//                        .loginPage("http://localhost:5173/login")
-//
-//                        .userInfoEndpoint(userInfo -> userInfo
-//                                .userService(customOAuth2UserService) // Lắp class check DB vào
-//                        )
-//                        .successHandler(oAuth2AuthenticationSuccessHandler) // Lắp class gen JWT vào
-//                );
-//
-//        return http.build();
-//    }
-//
-//    // 3. Cấu hình chi tiết cho CORS (VueJS kết nối an toàn)
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:8080")); // URL của VueJS
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
-//        configuration.setAllowCredentials(true); // Rất quan trọng nếu muốn truyền cookie/token
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-//}
+package org.example.trungcapphuongnam.config.security;
+
+import org.example.trungcapphuongnam.common.constant.RoleConstant;
+import org.example.trungcapphuongnam.config.jwt.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oauth2SuccessHandler;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
+    public SecurityConfig(
+            CustomOAuth2UserService customOAuth2UserService,
+            OAuth2AuthenticationSuccessHandler oauth2SuccessHandler,
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            CustomUserDetailsService customUserDetailsService,
+            CustomAccessDeniedHandler customAccessDeniedHandler,
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint
+    ) {
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.oauth2SuccessHandler = oauth2SuccessHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.customUserDetailsService = customUserDetailsService;
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(Customizer.withDefaults())
+
+                .csrf(csrf -> csrf.disable())
+
+                .formLogin(form -> form.disable())
+
+                .httpBasic(httpBasic -> httpBasic.disable())
+
+                .logout(logout -> logout.disable())
+
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                )
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, SecurityUrls.URL_ALL).permitAll()
+
+                        .requestMatchers(SecurityUrls.PUBLIC_URLS).permitAll()
+
+                        .requestMatchers(SecurityUrls.AUTHENTICATED_URLS).authenticated()
+
+                        .requestMatchers(SecurityUrls.ADMIN_URLS)
+                        .hasRole(RoleConstant.ADMIN)
+
+                        .requestMatchers(SecurityUrls.STUDENT_URLS)
+                        .hasRole(RoleConstant.STUDENT)
+
+                        .requestMatchers(SecurityUrls.LECTURER_URLS)
+                        .hasRole(RoleConstant.LECTURER)
+
+                        .requestMatchers(SecurityUrls.ACADEMIC_OFFICE_URLS)
+                        .hasRole(RoleConstant.ACADEMIC_OFFICE)
+
+                        .anyRequest().permitAll()
+                )
+
+                .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(endpoint -> endpoint
+                                .baseUri(SecurityUrls.OAUTH2_AUTHORIZATION_BASE_URI)
+                        )
+                        .redirectionEndpoint(endpoint -> endpoint
+                                .baseUri(SecurityUrls.OAUTH2_REDIRECT_BASE_URI)
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .successHandler(oauth2SuccessHandler)
+                        .failureHandler((request, response, exception) ->
+                                response.sendRedirect(frontendUrl + SecurityUrls.OAUTH2_FAILURE_REDIRECT)
+                        )
+                )
+
+                .authenticationProvider(authenticationProvider())
+
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(customUserDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return customUserDetailsService;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+}
