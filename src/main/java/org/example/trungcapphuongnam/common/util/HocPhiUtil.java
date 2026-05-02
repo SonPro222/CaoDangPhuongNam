@@ -1,6 +1,4 @@
 package org.example.trungcapphuongnam.common.util;
-
-
 import org.example.trungcapphuongnam.common.enums.TrangThaiHocPhi;
 
 import java.math.BigDecimal;
@@ -29,4 +27,3 @@ public final class HocPhiUtil {
         return value == null ? BigDecimal.ZERO : value;
     }
 }
-

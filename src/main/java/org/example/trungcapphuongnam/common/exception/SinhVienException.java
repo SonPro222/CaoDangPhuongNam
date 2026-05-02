@@ -1,4 +1,4 @@
-package org.example.trungcapphuongnam.module.sinhVien.exception;
+package org.example.trungcapphuongnam.common.exception;
 
 public class SinhVienException extends RuntimeException {
     public SinhVienException(String message) {
