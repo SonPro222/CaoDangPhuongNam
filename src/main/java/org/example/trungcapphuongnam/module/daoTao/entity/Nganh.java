@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package org.example.trungcapphuongnam.module.daoTao.entity;
 
 import jakarta.persistence.*;
@@ -44,4 +45,9 @@ public class Nganh {
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
+=======
+package org.example.trungcapphuongnam.module.dao_tao.entity;
+
+public class nganh {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

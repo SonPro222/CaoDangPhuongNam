@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.chuongTrinh.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -57,4 +58,7 @@ public class SyllabusMonHoc {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+=======
+public class syllabus_mon_hoc {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.diem.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -69,4 +70,7 @@ public class KetQuaMonHoc {
         updatedAt = LocalDateTime.now();
         ngayCapNhat = updatedAt;
     }
+=======
+public class ket_qua_mon_hoc {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

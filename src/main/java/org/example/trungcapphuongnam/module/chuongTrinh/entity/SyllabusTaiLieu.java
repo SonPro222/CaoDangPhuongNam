@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.chuongTrinh.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,4 +39,7 @@ public class SyllabusTaiLieu {
     @Column(name = "ghi_chu")
     private String ghiChu;
 
+=======
+public class syllabus_tai_lieu {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.daoTao.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,4 +34,7 @@ public class KhungKy {
 
     @Column(name = "thu_tu", nullable = false)
     private Integer thuTu;
+=======
+public class khung_ky {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

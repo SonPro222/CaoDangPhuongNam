@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.lms.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -45,4 +46,7 @@ public class CauTraLoiSinhVien {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+=======
+public class CauTraLoiSinhVien {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

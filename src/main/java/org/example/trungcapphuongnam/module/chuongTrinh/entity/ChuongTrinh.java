@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.chuongTrinh.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -44,4 +45,7 @@ public class ChuongTrinh {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+=======
+public class chuong_trinh {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.chuongTrinh.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,4 +30,7 @@ public class MucTieuChuongTrinh {
     @Column(name = "thu_tu")
     private Integer thuTu;
 
+=======
+public class muc_tieu_chuong_trinh {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

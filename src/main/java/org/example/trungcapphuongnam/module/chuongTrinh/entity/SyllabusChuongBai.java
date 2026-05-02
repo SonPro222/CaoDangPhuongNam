@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.module.chuongTrinh.entity;
 
+<<<<<<< HEAD
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -44,4 +45,7 @@ public class SyllabusChuongBai {
     @Column(name = "thu_tu")
     private Integer thuTu;
 
+=======
+public class syllabus_chuong_bai {
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 }

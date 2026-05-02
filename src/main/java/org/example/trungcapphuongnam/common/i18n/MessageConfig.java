@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package org.example.trungcapphuongnam.common.i18n;
+=======
+package org.example.trungcapphuongnam.common.i18n_dangonngu;
+>>>>>>> 6a4be8fd05295f2dbc861b8448b73a83fa198c8c
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
