@@ -8,8 +8,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { createApp } from 'vue'
 import App from './App.vue'
 
-//  Router
-import router from './router'
+// Router
+import router from './router/router.js'
 
 const app = createApp(App)
 
