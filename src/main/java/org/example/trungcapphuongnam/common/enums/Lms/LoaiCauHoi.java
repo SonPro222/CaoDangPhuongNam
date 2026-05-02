@@ -1,4 +1,5 @@
-package org.example.trungcapphuongnam.common.enums.Lms;
+package org.example.trungcapphuongnam.common.enums;
+
 public enum LoaiCauHoi {
     trac_nghiem_1_dap_an,
     trac_nghiem_nhieu_dap_an,

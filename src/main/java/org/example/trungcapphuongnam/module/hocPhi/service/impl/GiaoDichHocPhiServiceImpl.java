@@ -13,8 +13,8 @@ import org.example.trungcapphuongnam.module.hocPhi.mapper.GiaoDichHocPhiMapper;
 import org.example.trungcapphuongnam.module.hocPhi.repository.GiaoDichHocPhiRepository;
 import org.example.trungcapphuongnam.module.hocPhi.repository.HocPhiRepository;
 import org.example.trungcapphuongnam.module.hocPhi.service.GiaoDichHocPhiService;
-import org.example.trungcapphuongnam.module.hocPhi.util.HocPhiUtil;
-import org.example.trungcapphuongnam.module.hocPhi.validator.HocPhiValidator;
+import org.example.trungcapphuongnam.common.util.HocPhiUtil;
+import org.example.trungcapphuongnam.validator.HocPhiValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

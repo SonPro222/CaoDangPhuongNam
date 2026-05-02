@@ -7,7 +7,6 @@ import org.example.trungcapphuongnam.module.giangDay.exception.GiangDayNotFoundE
 import org.example.trungcapphuongnam.module.giangDay.mapper.DiemDanhMapper;
 import org.example.trungcapphuongnam.module.giangDay.repository.DiemDanhRepository;
 import org.example.trungcapphuongnam.module.giangDay.service.DiemDanhService;
-import org.example.trungcapphuongnam.module.giangDay.util.GiangDayValidateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

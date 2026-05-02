@@ -1,4 +1,5 @@
-package org.example.trungcapphuongnam.common.enums.Lms;
+package org.example.trungcapphuongnam.common.enums;
+
 public enum LoaiBaiOnline {
     bai_tap_ve_nha,
     quiz,

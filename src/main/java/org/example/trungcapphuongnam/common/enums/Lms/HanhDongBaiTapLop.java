@@ -1,4 +1,5 @@
-package org.example.trungcapphuongnam.common.enums.Lms;
+package org.example.trungcapphuongnam.common.enums;
+
 public enum HanhDongBaiTapLop {
     tao_moi,
     cap_nhat_thoi_gian,

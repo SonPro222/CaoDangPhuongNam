@@ -4,7 +4,7 @@ import org.example.trungcapphuongnam.common.enums.TrangThaiHocPhi;
 import org.example.trungcapphuongnam.module.hocPhi.dto.request.HocPhiRequest;
 import org.example.trungcapphuongnam.module.hocPhi.dto.response.HocPhiResponse;
 import org.example.trungcapphuongnam.module.hocPhi.entity.HocPhi;
-import org.example.trungcapphuongnam.module.hocPhi.util.HocPhiUtil;
+import org.example.trungcapphuongnam.common.util.HocPhiUtil;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

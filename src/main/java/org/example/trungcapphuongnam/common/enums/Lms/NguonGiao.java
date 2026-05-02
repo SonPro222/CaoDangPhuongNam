@@ -1,4 +1,5 @@
-package org.example.trungcapphuongnam.common.enums.Lms;
+package org.example.trungcapphuongnam.common.enums;
+
 public enum NguonGiao {
     giao_vien,
     phong_dao_tao,

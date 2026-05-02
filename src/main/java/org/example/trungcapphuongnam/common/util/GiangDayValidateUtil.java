@@ -1,5 +1,4 @@
-package org.example.trungcapphuongnam.module.giangDay.util;
-
+package org.example.trungcapphuongnam.common.util;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
