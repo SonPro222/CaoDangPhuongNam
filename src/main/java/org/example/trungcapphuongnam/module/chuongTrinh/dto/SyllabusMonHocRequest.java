@@ -1,0 +1,41 @@
+package org.example.trungcapphuongnam.module.chuongTrinh.dto;
+import lombok.*;
+import jakarta.validation.constraints.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class SyllabusMonHocRequest {
+
+    @NotNull(message = "chuong_trinh_mon_id không được để trống")
+    private Long chuongTrinhMonId;
+
+    private String viTri;
+
+    private String tinhChat;
+
+    private String mucTieu;
+
+    private String phuongPhapDanhGia;
+
+    private String dieuKienHoanThanh;
+
+    private String huongDan;
+
+    private String donViDiem;
+
+    private BigDecimal tyLeChuyenCanToiThieu;
+
+    private Boolean batBuocDuThi;
+
+    private String congThucQuyDoi;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+}

@@ -1,4 +1,6 @@
 package org.example.trungcapphuongnam.common.enums;
 
-public class TrangThaiNganh {
+public enum TrangThaiNganh {
+    dang_dao_tao,
+    ngung_dao_tao
 }
