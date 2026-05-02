@@ -4,8 +4,8 @@ import org.example.trungcapphuongnam.module.sinhVien.dto.request.SinhVienChuongT
 import org.example.trungcapphuongnam.module.sinhVien.dto.response.SinhVienChuongTrinhResponse;
 import org.example.trungcapphuongnam.module.sinhVien.entity.SinhVien;
 import org.example.trungcapphuongnam.module.sinhVien.entity.SinhVienChuongTrinh;
-import org.example.trungcapphuongnam.module.sinhVien.exception.SinhVienException;
-import org.example.trungcapphuongnam.module.sinhVien.exception.SinhVienNotFoundException;
+import org.example.trungcapphuongnam.common.exception.SinhVienException;
+import org.example.trungcapphuongnam.common.exception.SinhVienNotFoundException;
 import org.example.trungcapphuongnam.module.sinhVien.mapper.SinhVienChuongTrinhMapper;
 import org.example.trungcapphuongnam.module.sinhVien.repository.SinhVienChuongTrinhRepository;
 import org.example.trungcapphuongnam.module.sinhVien.repository.SinhVienRepository;
