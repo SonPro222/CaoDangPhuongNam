@@ -1,17 +1,23 @@
 package org.example.trungcapphuongnam.module.heThong.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.example.trungcapphuongnam.module.heThong.dto.request.TaiKhoanRequest;
 import org.example.trungcapphuongnam.module.heThong.dto.response.TaiKhoanResponse;
 import org.example.trungcapphuongnam.module.heThong.entity.TaiKhoan;
+import org.example.trungcapphuongnam.module.heThong.entity.TaiKhoanVaiTro;
+import org.example.trungcapphuongnam.module.heThong.entity.VaiTro;
 import org.example.trungcapphuongnam.module.heThong.exception.HeThongNotFoundException;
 import org.example.trungcapphuongnam.module.heThong.mapper.TaiKhoanMapper;
 import org.example.trungcapphuongnam.module.heThong.repository.TaiKhoanRepository;
+import org.example.trungcapphuongnam.module.heThong.repository.VaiTroRepository;
 import org.example.trungcapphuongnam.module.heThong.service.TaiKhoanService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +25,9 @@ import java.util.List;
 public class TaiKhoanServiceImpl implements TaiKhoanService {
 
     private final TaiKhoanRepository taiKhoanRepository;
+    private final VaiTroRepository vaiTroRepository;
     private final TaiKhoanMapper taiKhoanMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = true)
@@ -38,14 +46,46 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
     @Override
     public TaiKhoanResponse create(TaiKhoanRequest request) {
+        validateRequest(request, true);
+
+        String email = request.getEmail().trim().toLowerCase();
+
+        if (taiKhoanRepository.existsByEmail(email)) {
+            throw new RuntimeException("Email đã tồn tại");
+        }
+
         TaiKhoan entity = taiKhoanMapper.toEntity(request);
+        entity.setEmail(email);
+        entity.setMatKhauHash(passwordEncoder.encode(request.getMatKhau()));
+
+        ganVaiTro(entity, request.getRoles());
+
         return taiKhoanMapper.toResponse(taiKhoanRepository.save(entity));
     }
 
     @Override
     public TaiKhoanResponse update(Long id, TaiKhoanRequest request) {
+        validateRequest(request, false);
+
         TaiKhoan entity = findByIdOrThrow(id);
+
+        String email = request.getEmail().trim().toLowerCase();
+
+        taiKhoanRepository.findByEmail(email)
+                .filter(existing -> !existing.getId().equals(id))
+                .ifPresent(existing -> {
+                    throw new RuntimeException("Email đã tồn tại");
+                });
+
         taiKhoanMapper.updateEntity(entity, request);
+        entity.setEmail(email);
+
+        if (request.getMatKhau() != null && !request.getMatKhau().isBlank()) {
+            entity.setMatKhauHash(passwordEncoder.encode(request.getMatKhau()));
+        }
+
+        ganVaiTro(entity, request.getRoles());
+
         return taiKhoanMapper.toResponse(taiKhoanRepository.save(entity));
     }
 
@@ -57,6 +97,54 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
     private TaiKhoan findByIdOrThrow(Long id) {
         return taiKhoanRepository.findById(id)
-                .orElseThrow(() -> new HeThongNotFoundException("Không tìm thấy TaiKhoan với id = " + id));
+                .orElseThrow(() -> new HeThongNotFoundException("Không tìm thấy tài khoản với id = " + id));
+    }
+
+    private void validateRequest(TaiKhoanRequest request, boolean createMode) {
+        if (request == null) {
+            throw new RuntimeException("Dữ liệu tài khoản không hợp lệ");
+        }
+
+        if (request.getEmail() == null || request.getEmail().isBlank()) {
+            throw new RuntimeException("Email không được để trống");
+        }
+
+        if (createMode && (request.getMatKhau() == null || request.getMatKhau().isBlank())) {
+            throw new RuntimeException("Mật khẩu không được để trống");
+        }
+
+        if (request.getLoaiTaiKhoan() == null || request.getLoaiTaiKhoan().isBlank()) {
+            throw new RuntimeException("Loại tài khoản không được để trống");
+        }
+
+        if (request.getRoles() == null || request.getRoles().isEmpty()) {
+            throw new RuntimeException("Tài khoản phải có ít nhất một vai trò");
+        }
+    }
+
+    private void ganVaiTro(TaiKhoan taiKhoan, List<String> roleCodes) {
+        taiKhoan.getTaiKhoanVaiTros().clear();
+
+        if (roleCodes == null || roleCodes.isEmpty()) {
+            return;
+        }
+
+        Set<String> uniqueRoleCodes = new LinkedHashSet<>(
+                roleCodes.stream()
+                        .filter(role -> role != null && !role.isBlank())
+                        .map(role -> role.trim().toUpperCase())
+                        .toList()
+        );
+
+        for (String roleCode : uniqueRoleCodes) {
+            VaiTro vaiTro = vaiTroRepository.findByMaVaiTro(roleCode)
+                    .orElseThrow(() -> new HeThongNotFoundException("Không tìm thấy vai trò: " + roleCode));
+
+            TaiKhoanVaiTro taiKhoanVaiTro = new TaiKhoanVaiTro();
+            taiKhoanVaiTro.setTaiKhoan(taiKhoan);
+            taiKhoanVaiTro.setVaiTro(vaiTro);
+
+            taiKhoan.getTaiKhoanVaiTros().add(taiKhoanVaiTro);
+        }
     }
 }

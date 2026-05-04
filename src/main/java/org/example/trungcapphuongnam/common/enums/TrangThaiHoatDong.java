@@ -1,7 +1,7 @@
 package org.example.trungcapphuongnam.common.enums;
 
 public enum TrangThaiHoatDong {
-    HOAT_DONG,
-    TAM_NGUNG,
-    DA_XOA
+    hoat_dong,
+    tam_ngung,
+    da_xoa
 }

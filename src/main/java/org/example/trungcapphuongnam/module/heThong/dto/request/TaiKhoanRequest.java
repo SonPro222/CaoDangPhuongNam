@@ -1,9 +1,8 @@
 package org.example.trungcapphuongnam.module.heThong.dto.request;
 
 import lombok.*;
-import java.time.*;
-import org.example.trungcapphuongnam.common.enums.LoaiTaiKhoan;
-import org.example.trungcapphuongnam.common.enums.TrangThaiTaiKhoan;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,9 +10,12 @@ import org.example.trungcapphuongnam.common.enums.TrangThaiTaiKhoan;
 @AllArgsConstructor
 @Builder
 public class TaiKhoanRequest {
+
     private String email;
-    private String matKhauHash;
-    private LoaiTaiKhoan loaiTaiKhoan;
-    private TrangThaiTaiKhoan trangThai;
-    private LocalDateTime lanDangNhapCuoi;
+
+    private String matKhau;
+
+    private String loaiTaiKhoan;
+
+    private List<String> roles;
 }

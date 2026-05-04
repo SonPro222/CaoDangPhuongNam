@@ -3,6 +3,7 @@ package org.example.trungcapphuongnam.module.heThong.mapper;
 import org.example.trungcapphuongnam.module.heThong.dto.request.NhatKyHeThongRequest;
 import org.example.trungcapphuongnam.module.heThong.dto.response.NhatKyHeThongResponse;
 import org.example.trungcapphuongnam.module.heThong.entity.NhatKyHeThong;
+import org.example.trungcapphuongnam.module.heThong.entity.TaiKhoan;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,9 +13,10 @@ public class NhatKyHeThongMapper {
         if (entity == null) {
             return null;
         }
+
         return NhatKyHeThongResponse.builder()
                 .id(entity.getId())
-                .taiKhoanId(entity.getTaiKhoanId())
+                .taiKhoanId(entity.getTaiKhoan() == null ? null : entity.getTaiKhoan().getId())
                 .hanhDong(entity.getHanhDong())
                 .bangTacDong(entity.getBangTacDong())
                 .banGhiId(entity.getBanGhiId())
@@ -30,8 +32,15 @@ public class NhatKyHeThongMapper {
         if (request == null) {
             return null;
         }
+
         NhatKyHeThong entity = new NhatKyHeThong();
-        entity.setTaiKhoanId(request.getTaiKhoanId());
+
+        if (request.getTaiKhoanId() != null) {
+            TaiKhoan taiKhoan = new TaiKhoan();
+            taiKhoan.setId(request.getTaiKhoanId());
+            entity.setTaiKhoan(taiKhoan);
+        }
+
         entity.setHanhDong(request.getHanhDong());
         entity.setBangTacDong(request.getBangTacDong());
         entity.setBanGhiId(request.getBanGhiId());
@@ -39,6 +48,7 @@ public class NhatKyHeThongMapper {
         entity.setNoiDungMoi(request.getNoiDungMoi());
         entity.setIpAddress(request.getIpAddress());
         entity.setUserAgent(request.getUserAgent());
+
         return entity;
     }
 
@@ -46,7 +56,15 @@ public class NhatKyHeThongMapper {
         if (entity == null || request == null) {
             return;
         }
-        entity.setTaiKhoanId(request.getTaiKhoanId());
+
+        if (request.getTaiKhoanId() != null) {
+            TaiKhoan taiKhoan = new TaiKhoan();
+            taiKhoan.setId(request.getTaiKhoanId());
+            entity.setTaiKhoan(taiKhoan);
+        } else {
+            entity.setTaiKhoan(null);
+        }
+
         entity.setHanhDong(request.getHanhDong());
         entity.setBangTacDong(request.getBangTacDong());
         entity.setBanGhiId(request.getBanGhiId());

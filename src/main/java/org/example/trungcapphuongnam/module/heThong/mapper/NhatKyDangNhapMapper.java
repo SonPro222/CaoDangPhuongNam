@@ -3,6 +3,7 @@ package org.example.trungcapphuongnam.module.heThong.mapper;
 import org.example.trungcapphuongnam.module.heThong.dto.request.NhatKyDangNhapRequest;
 import org.example.trungcapphuongnam.module.heThong.dto.response.NhatKyDangNhapResponse;
 import org.example.trungcapphuongnam.module.heThong.entity.NhatKyDangNhap;
+import org.example.trungcapphuongnam.module.heThong.entity.TaiKhoan;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,9 +13,10 @@ public class NhatKyDangNhapMapper {
         if (entity == null) {
             return null;
         }
+
         return NhatKyDangNhapResponse.builder()
                 .id(entity.getId())
-                .taiKhoanId(entity.getTaiKhoanId())
+                .taiKhoanId(entity.getTaiKhoan() == null ? null : entity.getTaiKhoan().getId())
                 .thoiGian(entity.getThoiGian())
                 .ipAddress(entity.getIpAddress())
                 .userAgent(entity.getUserAgent())
@@ -27,13 +29,21 @@ public class NhatKyDangNhapMapper {
         if (request == null) {
             return null;
         }
+
         NhatKyDangNhap entity = new NhatKyDangNhap();
-        entity.setTaiKhoanId(request.getTaiKhoanId());
+
+        if (request.getTaiKhoanId() != null) {
+            TaiKhoan taiKhoan = new TaiKhoan();
+            taiKhoan.setId(request.getTaiKhoanId());
+            entity.setTaiKhoan(taiKhoan);
+        }
+
         entity.setThoiGian(request.getThoiGian());
         entity.setIpAddress(request.getIpAddress());
         entity.setUserAgent(request.getUserAgent());
         entity.setThanhCong(request.getThanhCong());
         entity.setLyDoThatBai(request.getLyDoThatBai());
+
         return entity;
     }
 
@@ -41,7 +51,15 @@ public class NhatKyDangNhapMapper {
         if (entity == null || request == null) {
             return;
         }
-        entity.setTaiKhoanId(request.getTaiKhoanId());
+
+        if (request.getTaiKhoanId() != null) {
+            TaiKhoan taiKhoan = new TaiKhoan();
+            taiKhoan.setId(request.getTaiKhoanId());
+            entity.setTaiKhoan(taiKhoan);
+        } else {
+            entity.setTaiKhoan(null);
+        }
+
         entity.setThoiGian(request.getThoiGian());
         entity.setIpAddress(request.getIpAddress());
         entity.setUserAgent(request.getUserAgent());

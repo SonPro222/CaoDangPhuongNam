@@ -2,7 +2,6 @@ package org.example.trungcapphuongnam.module.heThong.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.*;
 
 @Getter
 @Setter
@@ -10,16 +9,26 @@ import java.time.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "vai_tro_quyen")
+@Table(
+        name = "vai_tro_quyen",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_vai_tro_quyen",
+                        columnNames = {"vai_tro_id", "quyen_id"}
+                )
+        }
+)
 public class VaiTroQuyen {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "vai_tro_id", nullable = false)
-    private Long vaiTroId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "vai_tro_id", nullable = false)
+    private VaiTro vaiTro;
 
-    @Column(name = "quyen_id", nullable = false)
-    private Long quyenId;
-
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "quyen_id", nullable = false)
+    private Quyen quyen;
 }

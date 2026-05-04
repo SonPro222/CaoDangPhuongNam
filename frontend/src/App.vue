@@ -1,16 +1,7 @@
-<script setup>
-
-</script>
-
+<!-- src/App.vue -->
 <template>
-  <header>
-
-  </header>
-
-  <main>
-    <router-view></router-view>
-  </main>
+  <router-view />
 </template>
 
-<style scoped>
-</style>
+<script setup>
+</script>

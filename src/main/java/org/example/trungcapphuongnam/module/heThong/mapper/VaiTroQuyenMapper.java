@@ -2,6 +2,8 @@ package org.example.trungcapphuongnam.module.heThong.mapper;
 
 import org.example.trungcapphuongnam.module.heThong.dto.request.VaiTroQuyenRequest;
 import org.example.trungcapphuongnam.module.heThong.dto.response.VaiTroQuyenResponse;
+import org.example.trungcapphuongnam.module.heThong.entity.Quyen;
+import org.example.trungcapphuongnam.module.heThong.entity.VaiTro;
 import org.example.trungcapphuongnam.module.heThong.entity.VaiTroQuyen;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,11 @@ public class VaiTroQuyenMapper {
         if (entity == null) {
             return null;
         }
+
         return VaiTroQuyenResponse.builder()
                 .id(entity.getId())
-                .vaiTroId(entity.getVaiTroId())
-                .quyenId(entity.getQuyenId())
+                .vaiTroId(entity.getVaiTro() == null ? null : entity.getVaiTro().getId())
+                .quyenId(entity.getQuyen() == null ? null : entity.getQuyen().getId())
                 .build();
     }
 
@@ -23,9 +26,21 @@ public class VaiTroQuyenMapper {
         if (request == null) {
             return null;
         }
+
         VaiTroQuyen entity = new VaiTroQuyen();
-        entity.setVaiTroId(request.getVaiTroId());
-        entity.setQuyenId(request.getQuyenId());
+
+        if (request.getVaiTroId() != null) {
+            VaiTro vaiTro = new VaiTro();
+            vaiTro.setId(request.getVaiTroId());
+            entity.setVaiTro(vaiTro);
+        }
+
+        if (request.getQuyenId() != null) {
+            Quyen quyen = new Quyen();
+            quyen.setId(request.getQuyenId());
+            entity.setQuyen(quyen);
+        }
+
         return entity;
     }
 
@@ -33,7 +48,21 @@ public class VaiTroQuyenMapper {
         if (entity == null || request == null) {
             return;
         }
-        entity.setVaiTroId(request.getVaiTroId());
-        entity.setQuyenId(request.getQuyenId());
+
+        if (request.getVaiTroId() != null) {
+            VaiTro vaiTro = new VaiTro();
+            vaiTro.setId(request.getVaiTroId());
+            entity.setVaiTro(vaiTro);
+        } else {
+            entity.setVaiTro(null);
+        }
+
+        if (request.getQuyenId() != null) {
+            Quyen quyen = new Quyen();
+            quyen.setId(request.getQuyenId());
+            entity.setQuyen(quyen);
+        } else {
+            entity.setQuyen(null);
+        }
     }
 }

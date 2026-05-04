@@ -38,11 +38,17 @@ public class SecurityUrls {
     };
 
     public static final String[] ACADEMIC_OFFICE_URLS = {
+            "/api/dao-tao/**",
+            "/api/chuong-trinh/**",
+
             "/dao-tao/**",
+            "/chuong-trinh/**",
             "/course-management/**"
     };
 
     public static final String[] ADMIN_URLS = {
+            "/api/he-thong/**",
+
             "/admin/**",
             "/user-management/**"
     };

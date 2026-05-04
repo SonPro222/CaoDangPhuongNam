@@ -1,5 +1,6 @@
 package org.example.trungcapphuongnam.config.security;
-
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.example.trungcapphuongnam.common.constant.RoleConstant;
 import org.example.trungcapphuongnam.config.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,13 +82,13 @@ public class SecurityConfig {
                         .hasRole(RoleConstant.ADMIN)
 
                         .requestMatchers(SecurityUrls.STUDENT_URLS)
-                        .hasRole(RoleConstant.STUDENT)
+                        .hasRole(RoleConstant.SINH_VIEN)
 
                         .requestMatchers(SecurityUrls.LECTURER_URLS)
-                        .hasRole(RoleConstant.LECTURER)
+                        .hasRole(RoleConstant.GIAO_VIEN)
 
                         .requestMatchers(SecurityUrls.ACADEMIC_OFFICE_URLS)
-                        .hasRole(RoleConstant.ACADEMIC_OFFICE)
+                        .hasRole(RoleConstant.DAO_TAO)
 
                         .anyRequest().permitAll()
                 )
@@ -131,5 +132,9 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }

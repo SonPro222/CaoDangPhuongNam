@@ -4,7 +4,6 @@ package org.example.trungcapphuongnam.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.*;
-import org.example.trungcapphuongnam.config.security.SecurityUrls;
 import java.util.List;
 
 @Configuration

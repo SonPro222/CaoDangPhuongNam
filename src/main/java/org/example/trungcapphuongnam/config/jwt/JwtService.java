@@ -24,10 +24,12 @@ public class JwtService {
     private long expirationMs;
 
     public String generateToken(UserDetails userDetails) {
+
         return generateToken(Map.of(), userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+
         Date now = new Date();
         Date expiredAt = new Date(now.getTime() + expirationMs);
 
