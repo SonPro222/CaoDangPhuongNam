@@ -29,7 +29,7 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import DaoTaoPageShell from './shared/DaoTaoPageShell.vue';
 import { getNganhById } from '@/api/daoTao/ApiRespone/NganhController';
-import { getErrorMessage, unwrapApiData } from '../../api/apiResponse.js';
+import { getErrorMessage, unwrapApiData } from '@/api/apiResponse.js';
 
 const route = useRoute();
 const nganhId = route.params.nganhId;

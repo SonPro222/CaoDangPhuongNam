@@ -1,6 +1,6 @@
 import apiClient from '../../apiConfig';
 
-const ENDPOINT = '/api/chuong-trinh/chuong-trinh';
+const ENDPOINT = '/api/chuongTrinh/chuong-trinh';
 
 export const getAllChuongTrinh = (params = {}) => {
   return apiClient.get(ENDPOINT, { params });
